@@ -1,0 +1,55 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.16.0
+2 info using node@v24.18.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\admin\Desktop\VibeCodingClass\Day3_RPA\frontend\.npmrc
+5 silly config load:file:C:\Users\admin\.npmrc
+6 silly config load:file:C:\Users\admin\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install react react-dom
+8 verbose argv "install" "react" "react-dom" "--cache" ".npm-cache" "--prefer-online"
+9 verbose logfile logs-max:10 dir:C:\Users\admin\Desktop\VibeCodingClass\Day3_RPA\frontend\.npm-cache\_logs\2026-07-01T02_40_19_642Z-
+10 verbose logfile C:\Users\admin\Desktop\VibeCodingClass\Day3_RPA\frontend\.npm-cache\_logs\2026-07-01T02_40_19_642Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest react@*
+15 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/npm 185ms
+17 http fetch GET 200 https://registry.npmjs.org/react 225ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/react set size:undefined disposed:false
+19 silly fetch manifest react-dom@*
+20 silly packumentCache full:https://registry.npmjs.org/react-dom cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/react-dom 173ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/react-dom set size:undefined disposed:false
+23 silly placeDep ROOT react@19.2.7 OK for: frontend@1.0.0 want: *
+24 silly placeDep ROOT react-dom@19.2.7 OK for: frontend@1.0.0 want: *
+25 silly fetch manifest scheduler@^0.27.0
+26 silly packumentCache full:https://registry.npmjs.org/scheduler cache-miss
+27 http fetch GET 200 https://registry.npmjs.org/scheduler 169ms (cache miss)
+28 silly packumentCache full:https://registry.npmjs.org/scheduler set size:undefined disposed:false
+29 silly placeDep ROOT scheduler@0.27.0 OK for: react-dom@19.2.7 want: ^0.27.0
+30 silly reify moves {}
+31 silly audit bulk request {
+31 silly audit   react: [ '19.2.7' ],
+31 silly audit   'react-dom': [ '19.2.7' ],
+31 silly audit   scheduler: [ '0.27.0' ]
+31 silly audit }
+32 http fetch GET 200 https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz 62ms (cache miss)
+33 http fetch GET 200 https://registry.npmjs.org/react/-/react-19.2.7.tgz 97ms (cache miss)
+34 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 155ms
+35 silly audit report {}
+36 http fetch GET 200 https://registry.npmjs.org/react-dom/-/react-dom-19.2.7.tgz 245ms (cache miss)
+37 silly ADD node_modules/scheduler
+38 silly ADD node_modules/react-dom
+39 silly ADD node_modules/react
+40 verbose cwd C:\Users\admin\Desktop\VibeCodingClass\Day3_RPA\frontend
+41 verbose os Windows_NT 10.0.19045
+42 verbose node v24.18.0
+43 verbose npm  v11.16.0
+44 notice
+44 notice New minor version of npm available! 11.16.0 -> 11.18.0
+44 notice Changelog: https://github.com/npm/cli/releases/tag/v11.18.0
+44 notice To update run: npm install -g npm@11.18.0
+44 notice  { force: true, Symbol(proc-log.meta): true }
+45 verbose exit 0
+46 info ok
