@@ -1,0 +1,6 @@
+interface:
+  display_name: "코드 리뷰"
+  short_description: "FE/BE 코드의 직관성, 보안취약성, 재사용성을 한국어 표로 리뷰"
+  default_prompt: "Use $code-review to review the completed FE/BE code and present the findings in a Korean table."
+policy:
+  allow_implicit_invocation: false
