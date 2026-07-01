@@ -1,0 +1,28 @@
+# Local tool state
+.agents/
+.codex/
+
+# Python / uv
+.uv-cache/
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Runtime data
+backend/data/*.db
+backend/uploads/*
+!backend/data/.gitkeep
+!backend/uploads/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/.npm-cache/
+frontend/dist/
+
+# Logs and environment
+*.log
+.env
+.env.*
+!.env.example
