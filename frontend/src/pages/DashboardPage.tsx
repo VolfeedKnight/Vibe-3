@@ -8,9 +8,10 @@ type DashboardPageProps = {
     status?: StatusResponse;
     error?: string;
   };
+  onOpenSchedules: () => void;
 };
 
-export function DashboardPage({ connection }: DashboardPageProps) {
+export function DashboardPage({ connection, onOpenSchedules }: DashboardPageProps) {
   const backendState = getBadgeState(connection.backend, connection.error);
   const databaseState = getBadgeState(connection.database, connection.error);
 
@@ -20,9 +21,15 @@ export function DashboardPage({ connection }: DashboardPageProps) {
         <p className="eyebrow">Public Administration Super App</p>
         <h1>공공직군 행정업무를 한 화면에서 처리하는 슈퍼앱</h1>
         <p className="hero-description">
-          팀원 스케쥴, 엑셀 업무 자동화, 민원 대응 챗봇, 공공행정 뉴스 수집을
-          하나의 업무 허브로 묶기 위한 초기 스케폴드입니다.
+          팀원 일정, 엑셀 업무 자동화, 민원 대응 챗봇, 공공행정 뉴스 수집을 하나의 업무 허브로 묶는 초기
+          애플리케이션입니다.
         </p>
+
+        <div className="hero-actions">
+          <button className="primary-button" type="button" onClick={onOpenSchedules}>
+            팀원 일정 관리 시작
+          </button>
+        </div>
 
         <section className="status-grid" aria-label="연동 상태">
           <StatusCard
@@ -37,11 +44,7 @@ export function DashboardPage({ connection }: DashboardPageProps) {
           />
           <StatusCard
             title="API 모듈"
-            description={
-              connection.status
-                ? `${connection.status.modules.length}개 모듈 라우팅 준비`
-                : "모듈 상태 확인 중"
-            }
+            description={connection.status ? `${connection.status.modules.length}개 모듈 라우터 준비` : "모듈 상태 확인 중"}
             state={connection.status ? "ok" : connection.error ? "error" : "waiting"}
           />
         </section>

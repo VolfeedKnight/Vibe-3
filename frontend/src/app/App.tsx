@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { DashboardPage } from "../pages/DashboardPage";
+import { SchedulePage } from "../pages/SchedulePage";
 import { getBackendHealth, getDatabaseHealth, getSystemStatus } from "../shared/api/client";
 import type { HealthResponse, StatusResponse } from "../shared/api/types";
 
@@ -10,8 +11,11 @@ type ConnectionState = {
   error?: string;
 };
 
+type AppPage = "dashboard" | "schedules";
+
 export function App() {
   const [connection, setConnection] = useState<ConnectionState>({});
+  const [page, setPage] = useState<AppPage>("dashboard");
 
   useEffect(() => {
     let isMounted = true;
@@ -43,5 +47,9 @@ export function App() {
     };
   }, []);
 
-  return <DashboardPage connection={connection} />;
+  if (page === "schedules") {
+    return <SchedulePage onBack={() => setPage("dashboard")} />;
+  }
+
+  return <DashboardPage connection={connection} onOpenSchedules={() => setPage("schedules")} />;
 }

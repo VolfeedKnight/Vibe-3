@@ -1,8 +1,8 @@
 export const featureCards = [
   {
     title: "팀원 스케쥴 관리",
-    description: "휴가, 근무, 출장 일정을 공유하는 캘린더 페이지 구조를 준비했습니다.",
-    status: "page scaffold",
+    description: "팀원 CRUD와 휴가, 근무, 출장 일정을 주간/월간 뷰로 관리합니다.",
+    status: "MVP implemented",
   },
   {
     title: "엑셀 업무 자동화",
