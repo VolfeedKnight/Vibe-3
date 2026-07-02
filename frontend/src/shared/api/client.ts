@@ -14,6 +14,8 @@ import type {
   TeamMemberPayload,
 } from "./types";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
 };
@@ -27,12 +29,13 @@ type ScheduleQuery = {
 
 async function requestJson<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
+  const url = `${API_BASE_URL}${path}`;
 
   if (options.body !== undefined) {
     headers.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(path, {
+  const response = await fetch(url, {
     ...options,
     headers,
     body: options.body === undefined ? undefined : JSON.stringify(options.body),
@@ -53,10 +56,10 @@ async function getErrorMessage(response: Response, path: string): Promise<string
       return payload.detail;
     }
   } catch {
-    return `${path} 요청 실패: ${response.status}`;
+    return `${path} request failed: ${response.status}`;
   }
 
-  return `${path} 요청 실패: ${response.status}`;
+  return `${path} request failed: ${response.status}`;
 }
 
 export function getBackendHealth() {
