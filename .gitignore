@@ -13,6 +13,7 @@ __pycache__/
 # Runtime data
 backend/data/*.db
 backend/uploads/*
+backend/cloudflared.local.yml
 !backend/data/.gitkeep
 !backend/uploads/.gitkeep
 

@@ -20,7 +20,12 @@ class Settings:
     database_path = data_dir / "app.db"
     cors_origins = _parse_cors_origins(
         "CORS_ORIGINS",
-        ["http://localhost:5173", "http://127.0.0.1:5173"],
+        [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "https://volfeedknight.github.io",
+            "https://volfeedknight.github.io/Vibe-3",
+        ],
     )
 
 
