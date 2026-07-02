@@ -70,3 +70,57 @@ export type SchedulePayload = {
 export type ListResponse<T> = {
   items: T[];
 };
+
+export type NewsCollectRequest = {
+  targetDate?: string;
+  force?: boolean;
+};
+
+export type NewsCollectResponse = {
+  status: string;
+  targetDate: string;
+  runMode: "manual" | "scheduled";
+  collected: number;
+  inserted: number;
+  updated: number;
+  skipped: number;
+  failed: number;
+  collectedAt: string;
+};
+
+export type NewsArticle = {
+  id: number;
+  sourceName: string;
+  title: string;
+  summary: string | null;
+  url: string;
+  publishedAt: string;
+  publishedDate: string;
+  content: string | null;
+  publishedTime: string;
+};
+
+export type NewsArticlesResponse = {
+  items: NewsArticle[];
+  targetDate: string;
+  total: number;
+};
+
+export type NewsRunResponse = {
+  id: number;
+  targetDate: string;
+  runMode: "manual" | "scheduled";
+  status: string;
+  startedAt: string;
+  endedAt: string | null;
+  collectedCount: number;
+  insertedCount: number;
+  updatedCount: number;
+  skippedCount: number;
+  failedCount: number;
+  errorMessage: string | null;
+};
+
+export type NewsRunListResponse = {
+  items: NewsRunResponse[];
+};

@@ -1,51 +1,69 @@
 import { featureCards } from "../features/featureCards";
-import type { HealthResponse, StatusResponse } from "../shared/api/types";
+import type { HealthResponse, NewsRunResponse, StatusResponse } from "../shared/api/types";
 
 type DashboardPageProps = {
   connection: {
     backend?: HealthResponse;
     database?: HealthResponse;
     status?: StatusResponse;
+    latestNewsRun?: NewsRunResponse | null;
     error?: string;
   };
   onOpenSchedules: () => void;
+  onOpenNews: () => void;
 };
 
-export function DashboardPage({ connection, onOpenSchedules }: DashboardPageProps) {
+export function DashboardPage({ connection, onOpenSchedules, onOpenNews }: DashboardPageProps) {
   const backendState = getBadgeState(connection.backend, connection.error);
   const databaseState = getBadgeState(connection.database, connection.error);
+  const newsState = connection.latestNewsRun ? (connection.latestNewsRun.status === "failed" ? "error" : "ok") : "waiting";
 
   return (
     <main className="shell">
       <section className="hero">
         <p className="eyebrow">Public Administration Super App</p>
-        <h1>공공직군 행정업무를 한 화면에서 처리하는 슈퍼앱</h1>
+        <h1>공공행정 업무를 한 화면에서 처리하는 포털</h1>
         <p className="hero-description">
-          팀원 일정, 엑셀 업무 자동화, 민원 대응 챗봇, 공공행정 뉴스 수집을 하나의 업무 허브로 묶는 초기
-          애플리케이션입니다.
+          일정, 문서, 민원, 뉴스 수집을 하나의 도구 안에서 관리하는 내부 업무 포털입니다.
         </p>
 
         <div className="hero-actions">
           <button className="primary-button" type="button" onClick={onOpenSchedules}>
-            팀원 일정 관리 시작
+            일정 관리 시작
+          </button>
+          <button className="ghost-button" type="button" onClick={onOpenNews}>
+            뉴스 수집 열기
           </button>
         </div>
 
-        <section className="status-grid" aria-label="연동 상태">
+        <section className="status-grid" aria-label="연결 상태">
           <StatusCard
-            title="FE-BE 연동"
+            title="FE-BE 연결"
             description={connection.error ?? connection.backend?.message ?? "백엔드 상태 확인 중"}
             state={backendState}
           />
           <StatusCard
-            title="BE-DB 연동"
+            title="BE-DB 연결"
             description={connection.database?.message ?? "SQLite 상태 확인 중"}
             state={databaseState}
           />
           <StatusCard
             title="API 모듈"
-            description={connection.status ? `${connection.status.modules.length}개 모듈 라우터 준비` : "모듈 상태 확인 중"}
+            description={
+              connection.status
+                ? `${connection.status.modules.length}개 모듈 준비 완료`
+                : "모듈 상태 확인 중"
+            }
             state={connection.status ? "ok" : connection.error ? "error" : "waiting"}
+          />
+          <StatusCard
+            title="뉴스 수집"
+            description={
+              connection.latestNewsRun
+                ? `${connection.latestNewsRun.targetDate} / ${formatRunLabel(connection.latestNewsRun)}`
+                : "뉴스 수집 이력 없음"
+            }
+            state={newsState}
           />
         </section>
 
@@ -95,4 +113,12 @@ function getBadgeState(response?: HealthResponse, error?: string): BadgeState {
   }
 
   return "waiting";
+}
+
+function formatRunLabel(run: NewsRunResponse): string {
+  const timestamp = new Date(run.endedAt ?? run.startedAt);
+  return new Intl.DateTimeFormat("ko-KR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(timestamp);
 }

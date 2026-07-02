@@ -38,9 +38,20 @@ button:disabled {
   padding: 40px;
 }
 
+.news-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(46, 96, 84, 0.16), transparent 30rem),
+    radial-gradient(circle at 90% 0%, rgba(170, 125, 55, 0.16), transparent 24rem),
+    linear-gradient(135deg, #f7f3ea 0%, #e4ecf2 100%);
+  padding: 40px;
+}
+
 .hero,
+.news-hero,
 .schedule-hero,
 .schedule-toolbar,
+.news-toolbar,
 .panel-card {
   border: 1px solid rgba(23, 33, 27, 0.12);
   border-radius: 28px;
@@ -53,6 +64,15 @@ button:disabled {
 }
 
 .schedule-hero {
+  align-items: flex-start;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 28px;
+}
+
+.news-hero {
   align-items: flex-start;
   display: flex;
   gap: 20px;
@@ -92,6 +112,9 @@ h3 {
 
 .hero-actions {
   margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .status-grid,
@@ -100,6 +123,10 @@ h3 {
   gap: 16px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 28px;
+}
+
+.status-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .feature-grid {
@@ -190,7 +217,17 @@ h3 {
   padding: 18px;
 }
 
+.news-toolbar {
+  align-items: end;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(240px, 1fr) auto auto;
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
 .schedule-toolbar label,
+.news-toolbar label,
 .stack-form label,
 .schedule-form label {
   color: #526057;
@@ -202,6 +239,8 @@ h3 {
 
 .schedule-toolbar input,
 .schedule-toolbar select,
+.news-toolbar input,
+.news-toolbar select,
 .stack-form input,
 .schedule-form input,
 .schedule-form select,
@@ -261,6 +300,109 @@ h3 {
   display: grid;
   gap: 18px;
   grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+}
+
+.news-summary-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.news-board {
+  border: 1px solid rgba(23, 33, 27, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 24px 80px rgba(40, 54, 44, 0.1);
+  padding: 22px;
+}
+
+.news-group-list {
+  display: grid;
+  gap: 16px;
+}
+
+.news-group {
+  border: 1px solid rgba(23, 33, 27, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.news-group-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.news-list {
+  display: grid;
+  gap: 12px;
+}
+
+.news-card {
+  align-items: flex-start;
+  border: 1px solid rgba(23, 33, 27, 0.09);
+  border-radius: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.news-card-main {
+  min-width: 0;
+}
+
+.news-card-meta {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.news-source,
+.news-date {
+  color: #647067;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.news-source.error {
+  color: #82372f;
+}
+
+.news-card h3 {
+  margin: 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-card p {
+  color: #556056;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.news-card-actions {
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.news-card-actions a {
+  align-items: center;
+  background: #244d35;
+  border-radius: 999px;
+  color: #fffdf6;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 10px 14px;
+  text-decoration: none;
 }
 
 .management-panel,
@@ -470,6 +612,8 @@ h3 {
 
 @media (max-width: 1180px) {
   .schedule-toolbar,
+  .news-toolbar,
+  .news-summary-grid,
   .schedule-layout,
   .schedule-form {
     grid-template-columns: 1fr 1fr;
@@ -487,14 +631,18 @@ h3 {
   }
 
   .schedule-hero,
+  .news-hero,
   .member-item,
-  .schedule-item {
+  .schedule-item,
+  .news-card {
     display: grid;
   }
 
   .status-grid,
   .feature-grid,
   .schedule-toolbar,
+  .news-toolbar,
+  .news-summary-grid,
   .schedule-layout,
   .schedule-form {
     grid-template-columns: 1fr;

@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { DashboardPage } from "../pages/DashboardPage";
+import { NewsPage } from "../pages/NewsPage";
 import { SchedulePage } from "../pages/SchedulePage";
-import { getBackendHealth, getDatabaseHealth, getSystemStatus } from "../shared/api/client";
-import type { HealthResponse, StatusResponse } from "../shared/api/types";
+import { getBackendHealth, getDatabaseHealth, getLatestNewsRun, getSystemStatus } from "../shared/api/client";
+import type { HealthResponse, NewsRunResponse, StatusResponse } from "../shared/api/types";
 
 type ConnectionState = {
   backend?: HealthResponse;
   database?: HealthResponse;
   status?: StatusResponse;
+  latestNewsRun?: NewsRunResponse | null;
   error?: string;
 };
 
-type AppPage = "dashboard" | "schedules";
+type AppPage = "dashboard" | "schedules" | "news";
 
 export function App() {
   const [connection, setConnection] = useState<ConnectionState>({});
@@ -22,14 +24,15 @@ export function App() {
 
     async function verifyConnections() {
       try {
-        const [backend, database, status] = await Promise.all([
+        const [backend, database, status, latestNewsRun] = await Promise.all([
           getBackendHealth(),
           getDatabaseHealth(),
           getSystemStatus(),
+          getLatestNewsRun(),
         ]);
 
         if (isMounted) {
-          setConnection({ backend, database, status });
+          setConnection({ backend, database, status, latestNewsRun });
         }
       } catch (error) {
         if (isMounted) {
@@ -51,5 +54,15 @@ export function App() {
     return <SchedulePage onBack={() => setPage("dashboard")} />;
   }
 
-  return <DashboardPage connection={connection} onOpenSchedules={() => setPage("schedules")} />;
+  if (page === "news") {
+    return <NewsPage onBack={() => setPage("dashboard")} />;
+  }
+
+  return (
+    <DashboardPage
+      connection={connection}
+      onOpenSchedules={() => setPage("schedules")}
+      onOpenNews={() => setPage("news")}
+    />
+  );
 }

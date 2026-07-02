@@ -1,6 +1,11 @@
 import type {
   HealthResponse,
   ListResponse,
+  NewsArticlesResponse,
+  NewsCollectRequest,
+  NewsCollectResponse,
+  NewsRunListResponse,
+  NewsRunResponse,
   Schedule,
   SchedulePayload,
   ScheduleType,
@@ -125,4 +130,31 @@ export function deleteSchedule(scheduleId: number) {
   return requestJson<{ status: string; message: string }>(`/api/schedules/${scheduleId}`, {
     method: "DELETE",
   });
+}
+
+export function collectNewsArticles(payload: NewsCollectRequest = {}) {
+  return requestJson<NewsCollectResponse>("/api/news/collect", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getNewsArticles(targetDate?: string) {
+  const params = new URLSearchParams();
+
+  if (targetDate) {
+    params.set("date", targetDate);
+  }
+
+  const query = params.toString();
+  return requestJson<NewsArticlesResponse>(query ? `/api/news/articles?${query}` : "/api/news/articles");
+}
+
+export function getLatestNewsRun() {
+  return requestJson<NewsRunResponse | null>("/api/news/runs/latest");
+}
+
+export function getRecentNewsRuns(limit = 10) {
+  const params = new URLSearchParams({ limit: String(limit) });
+  return requestJson<NewsRunListResponse>(`/api/news/runs?${params.toString()}`);
 }
