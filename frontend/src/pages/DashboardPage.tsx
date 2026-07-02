@@ -1,4 +1,5 @@
 import { featureCards } from "../features/featureCards";
+import { BackendConnectionCard } from "../features/BackendConnectionCard";
 import type { HealthResponse, NewsRunResponse, StatusResponse } from "../shared/api/types";
 
 type DashboardPageProps = {
@@ -9,11 +10,29 @@ type DashboardPageProps = {
     latestNewsRun?: NewsRunResponse | null;
     error?: string;
   };
+  backendUrl: string;
+  backendUrlDraft: string;
+  backendUrlStatus: "idle" | "testing" | "success" | "error";
+  backendUrlMessage: string | null;
+  onBackendUrlDraftChange: (value: string) => void;
+  onSaveBackendUrl: () => void;
+  onTestBackendUrl: () => void;
   onOpenSchedules: () => void;
   onOpenNews: () => void;
 };
 
-export function DashboardPage({ connection, onOpenSchedules, onOpenNews }: DashboardPageProps) {
+export function DashboardPage({
+  connection,
+  backendUrl,
+  backendUrlDraft,
+  backendUrlStatus,
+  backendUrlMessage,
+  onBackendUrlDraftChange,
+  onSaveBackendUrl,
+  onTestBackendUrl,
+  onOpenSchedules,
+  onOpenNews,
+}: DashboardPageProps) {
   const backendState = getBadgeState(connection.backend, connection.error);
   const databaseState = getBadgeState(connection.database, connection.error);
   const newsState = connection.latestNewsRun ? (connection.latestNewsRun.status === "failed" ? "error" : "ok") : "waiting";
@@ -22,9 +41,9 @@ export function DashboardPage({ connection, onOpenSchedules, onOpenNews }: Dashb
     <main className="shell">
       <section className="hero">
         <p className="eyebrow">Public Administration Super App</p>
-        <h1>공공행정 업무를 한 화면에서 처리하는 포털</h1>
+        <h1>공공행정 업무를 한 화면에서 다루는 시스템</h1>
         <p className="hero-description">
-          일정, 문서, 민원, 뉴스 수집을 하나의 도구 안에서 관리하는 내부 업무 포털입니다.
+          일정, 문서, 민원, 뉴스 수집을 하나의 대시보드에서 확인하고 관리하는 업무용 화면입니다.
         </p>
 
         <div className="hero-actions">
@@ -36,23 +55,31 @@ export function DashboardPage({ connection, onOpenSchedules, onOpenNews }: Dashb
           </button>
         </div>
 
+        <BackendConnectionCard
+          activeUrl={backendUrl}
+          draftUrl={backendUrlDraft}
+          status={backendUrlStatus}
+          message={backendUrlMessage}
+          onDraftUrlChange={onBackendUrlDraftChange}
+          onSave={onSaveBackendUrl}
+          onTest={onTestBackendUrl}
+        />
+
         <section className="status-grid" aria-label="연결 상태">
           <StatusCard
             title="FE-BE 연결"
-            description={connection.error ?? connection.backend?.message ?? "백엔드 상태 확인 중"}
+            description={connection.error ?? connection.backend?.message ?? "백엔드 상태를 확인하는 중"}
             state={backendState}
           />
           <StatusCard
             title="BE-DB 연결"
-            description={connection.database?.message ?? "SQLite 상태 확인 중"}
+            description={connection.database?.message ?? "SQLite 상태를 확인하는 중"}
             state={databaseState}
           />
           <StatusCard
             title="API 모듈"
             description={
-              connection.status
-                ? `${connection.status.modules.length}개 모듈 준비 완료`
-                : "모듈 상태 확인 중"
+              connection.status ? `${connection.status.modules.length}개 모듈 준비 완료` : "모듈 상태를 확인하는 중"
             }
             state={connection.status ? "ok" : connection.error ? "error" : "waiting"}
           />
@@ -61,7 +88,7 @@ export function DashboardPage({ connection, onOpenSchedules, onOpenNews }: Dashb
             description={
               connection.latestNewsRun
                 ? `${connection.latestNewsRun.targetDate} / ${formatRunLabel(connection.latestNewsRun)}`
-                : "뉴스 수집 이력 없음"
+                : "뉴스 수집 이력이 없습니다"
             }
             state={newsState}
           />

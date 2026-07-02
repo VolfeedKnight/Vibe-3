@@ -13,8 +13,7 @@ import type {
   TeamMember,
   TeamMemberPayload,
 } from "./types";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+import { getApiBaseUrl, resolveApiUrl } from "./runtime";
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -29,7 +28,28 @@ type ScheduleQuery = {
 
 async function requestJson<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
-  const url = `${API_BASE_URL}${path}`;
+  const url = resolveApiUrl(path);
+
+  if (options.body !== undefined) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+    body: options.body === undefined ? undefined : JSON.stringify(options.body),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getErrorMessage(response, path));
+  }
+
+  return response.json() as Promise<T>;
+}
+
+async function requestJsonAtBaseUrl<T>(baseUrl: string, path: string, options: RequestOptions = {}): Promise<T> {
+  const headers = new Headers(options.headers);
+  const url = resolveApiUrl(path, baseUrl);
 
   if (options.body !== undefined) {
     headers.set("Content-Type", "application/json");
@@ -64,6 +84,10 @@ async function getErrorMessage(response: Response, path: string): Promise<string
 
 export function getBackendHealth() {
   return requestJson<HealthResponse>("/health");
+}
+
+export function getBackendHealthAt(baseUrl: string) {
+  return requestJsonAtBaseUrl<HealthResponse>(baseUrl, "/health");
 }
 
 export function getDatabaseHealth() {
@@ -160,4 +184,8 @@ export function getLatestNewsRun() {
 export function getRecentNewsRuns(limit = 10) {
   const params = new URLSearchParams({ limit: String(limit) });
   return requestJson<NewsRunListResponse>(`/api/news/runs?${params.toString()}`);
+}
+
+export function getCurrentApiBaseUrl() {
+  return getApiBaseUrl();
 }

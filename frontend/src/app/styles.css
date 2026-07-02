@@ -133,6 +133,35 @@ h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.connection-card {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.connection-form {
+  display: grid;
+  gap: 14px;
+}
+
+.connection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.connection-current {
+  margin: 0;
+}
+
+.connection-card code {
+  background: rgba(36, 77, 53, 0.08);
+  border-radius: 8px;
+  color: #244d35;
+  padding: 2px 8px;
+  word-break: break-all;
+}
+
 .card,
 .panel-card {
   border: 1px solid rgba(23, 33, 27, 0.1);
